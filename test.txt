@@ -1,0 +1,16 @@
+Implementation
+Internally the queue will be represented with a slice type, and I’ll expose the
+
+New()
+Enqueue()
+Dequeue()
+Front()
+IsEmpty()
+Size()
+
+New() serves as the constructor, which initializes the internal slice when we start using it.
+
+enqueue()	This function defines the operation for adding an element into queue.
+dequeue()	This function defines the operation for removing an element from queue.
+Front	Front is used to get the front data item from a queue.
+Rear	Rear is used to get the last item from a queue.
