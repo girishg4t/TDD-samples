@@ -16,3 +16,9 @@ enqueue()	This function defines the operation for adding an element into queue.
 dequeue()	This function defines the operation for removing an element from queue.  
 Front	Front is used to get the front data item from a queue.  
 Rear	Rear is used to get the last item from a queue.  
+
+
+## Reverse Queue
+use the above create queue for below problem statement
+
+Reverse queue using empty queue
