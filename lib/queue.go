@@ -4,57 +4,51 @@ import (
 	"errors"
 )
 
-type queueType []interface{}
+//Queue represent the queue
+type Queue struct {
+	Values []interface{}
+	Rear   int
+	Start  int
+}
 
-var queue queueType
-var rear = -1
-var front = -1
-
-func IsEmpty() bool {
-	if len(queue) > 0 {
+func (queue *Queue) IsEmpty() bool {
+	if len(queue.Values) > 0 {
 		return false
 	}
 	return true
 }
 
-func New(n int) queueType {
-	rear = 0
-	front = 0
-	queue = make(queueType, n)
-	return queue
+func (queue *Queue) New() {
+	queue.Values = make([]interface{}, 0)
 }
 
-func Size() int {
-	return len(queue)
+func (queue *Queue) Size() int {
+	return len(queue.Values)
 }
 
-func Enqueue(el interface{}) (queueType, error) {
-	if rear < Size() {
-		queue[rear] = el
-		rear++
-		return queue, nil
-	}
-
-	return nil, errors.New("Max size reached")
+func (queue *Queue) Enqueue(el interface{}) error {
+	queue.Values = append(queue.Values, el)
+	queue.Rear = queue.Size() - 1
+	return nil
 }
 
-func Dequeue() (interface{}, error) {
-	if Size() <= 0 {
+func (queue *Queue) Dequeue() (interface{}, error) {
+	if queue.IsEmpty() {
 		return nil, errors.New("Max size reached")
 	}
 
-	el := queue[0]
-	queue = queue[1:rear]
-	rear = Size()
-	front = 0
+	el := queue.Values[0]
+	queue.Values = queue.Values[1:]
+	queue.Rear = queue.Size() - 1
+	queue.Start = 0
 	return el, nil
 }
 
-func Front() (interface{}, error) {
-	if front >= rear {
+func (queue *Queue) Front() (interface{}, error) {
+	if queue.Start > queue.Rear {
 		return nil, errors.New("Max size reached")
 	}
-	el := queue[front]
-	front++
+	el := queue.Values[queue.Start]
+	queue.Start++
 	return el, nil
 }

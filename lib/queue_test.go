@@ -5,15 +5,16 @@ import (
 )
 
 func TestCheckEmpty(t *testing.T) {
-
-	resultIsEmpty := IsEmpty()
+	q := &Queue{}
+	resultIsEmpty := q.IsEmpty()
 
 	if !resultIsEmpty {
 		t.Errorf("Queue is not empty")
 	}
 
-	New(5)
-	resultIsNotEmpty := IsEmpty()
+	q.New()
+	q.Enqueue(1)
+	resultIsNotEmpty := q.IsEmpty()
 
 	if resultIsNotEmpty {
 		t.Errorf("Queue should not be empty")
@@ -21,70 +22,51 @@ func TestCheckEmpty(t *testing.T) {
 
 }
 
-func TestNew(t *testing.T) {
-	New(3)
-	if Size() != 3 {
-		t.Errorf("Not create queue with length as 3")
-	}
-
-	New(10)
-	if Size() != 10 {
-		t.Errorf("Not create queue with length as 10")
-	}
-}
-
 func TestEnqueue(t *testing.T) {
-	New(2)
-	Enqueue(10)
-	Enqueue(12)
-	el, err := Front()
+	q := &Queue{}
+	q.New()
+	q.Enqueue(10)
+	q.Enqueue(12)
+	el, _ := q.Front()
 	if el != 10 {
 		t.Errorf("Queue does not have element as 10")
 	}
 
-	el, _ = Front()
+	el, _ = q.Front()
 	if el != 12 {
 		t.Errorf("Queue does not have element as 12")
 	}
 
-	Expected := "Max size reached"
-	_, err = Enqueue(13)
-	if err.Error() != Expected {
-		t.Errorf("Error actual = %v, and Expected = %v.", queue, Expected)
-	}
-
-	_, err = Enqueue(19)
-	if err.Error() != Expected {
-		t.Errorf("Error actual = %v, and Expected = %v.", queue, Expected)
-	}
-
-	_, err = Front()
-	if err.Error() != Expected {
-		t.Errorf("Error actual = %v, and Expected = %v.", queue, Expected)
+	q.Enqueue(13)
+	q.Enqueue(19)
+	el, _ = q.Front()
+	if el != 13 {
+		t.Errorf("Queue does not have element as 13")
 	}
 }
 
 func TestDequeue(t *testing.T) {
-	New(2)
-	Enqueue(10)
-	Enqueue(12)
-	el, err := Dequeue()
+	q := &Queue{}
+	q.New()
+	q.Enqueue(10)
+	q.Enqueue(12)
+	el, err := q.Dequeue()
 	if el != 10 {
 		t.Errorf("Element not found as 10")
 	}
 
-	el, _ = Dequeue()
+	el, _ = q.Dequeue()
 	if el != 12 {
 		t.Errorf("Element not found as 12")
 	}
 
 	Expected := "Max size reached"
 
-	_, err = Front()
+	_, err = q.Front()
 	if err.Error() != Expected {
 		t.Errorf(Expected)
 	}
-	_, err = Dequeue()
+	_, err = q.Dequeue()
 	if err.Error() != Expected {
 		t.Errorf(Expected)
 	}
